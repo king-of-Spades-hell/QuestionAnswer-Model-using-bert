@@ -1,20 +1,17 @@
-# Interactive Story Expansion with Validation
+# Question Answering System with BERT
 
-This project implements a Flask-based web application that allows users to expand stories interactively. The system validates user-provided actions against the story context using a fine-tuned validation model and generates story continuations using a pre-trained language model.
+This project implements a Flask-based web application that allows users to ask questions and receive answers from a given context using a fine-tuned BERT model. It supports interactive input and provides an efficient way to extract answers from text.
 
 ## 🚀 Features
-- **Action Validation**: Ensures user-provided actions align with the story context using a sequence classification model.
-- **Story Expansion**: Generates coherent and meaningful story continuations based on user input.
-- **Interactive Web Interface**: Provides a simple web interface for input and output.
-- **Customizable Models**: Supports swapping in different pre-trained or fine-tuned models.
+- **Contextual Question Answering**: Users can provide a context and a question to get precise answers.
+- **Fine-Tuned BERT Model**: Utilizes a fine-tuned BERT model for extracting answers.
+- **Interactive Web Interface**: Simple and user-friendly web interface for input and output.
+- **Customizable**: Supports easy integration of different fine-tuned models.
 
 ## 📂 Models Used
-1. **Text Generation Model**:
-   - Pre-trained model: `gpt2`
-   - Generates story continuations.
-2. **Validation Model**:
-   - Fine-tuned model for validating user actions based on context.
-   - Assumes three classes: Entailment, Neutral, Contradiction.
+- **Question Answering Model**:
+  - Fine-tuned BERT model for QA tasks.
+  - Trained to extract answers from provided contexts.
 
 ## 🛠 Setup
 
@@ -34,8 +31,7 @@ This project implements a Flask-based web application that allows users to expan
    ```bash
    pip install -r requirements.txt
    ```
-3. Place the fine-tuned validation model and tokenizer in the specified directories.
-4. Ensure the GPT-2 model is available for text generation.
+3. Place the fine-tuned BERT model and tokenizer in the specified directories.
 
 ### File Structure
 - `app.py`: Main Flask application.
@@ -48,27 +44,32 @@ This project implements a Flask-based web application that allows users to expan
    python app.py
    ```
 2. Open a web browser and navigate to `http://127.0.0.1:5000/`.
-3. Enter the story context and a user action in the interface.
-4. Submit the form to receive validation results and a generated continuation of the story.
+3. Enter the context and a question in the interface.
+4. Submit the form to receive the extracted answer.
 
 ## 📚 Key Functions
 
-### Action Validation
-- Validates user actions using the fine-tuned sequence classification model.
-- Returns one of three labels:
-  - **Entailment**: Action aligns with the story.
-  - **Neutral**: Action neither strongly aligns nor contradicts.
-  - **Contradiction**: Action conflicts with the story context.
+### Context Input
+- Users provide a paragraph of text as the context.
 
-### Story Expansion
-- Generates story continuations using GPT-2.
-- Accepts user action and story context as input.
-- Produces meaningful continuations by sampling from the language model.
+### Question Answering
+- Users input a question related to the provided context.
+- The fine-tuned BERT model processes the input and returns the most relevant answer.
+
+### Output
+- The application displays the extracted answer below the input fields.
 
 ## 🔧 Customization
-- **Models**: Replace `gpt2` or the fine-tuned validation model with your custom models.
-- **Routes**: Modify `/process` to include or exclude validation as needed.
-- **Generation Parameters**: Adjust `max_length`, `temperature`, `top_k`, and `top_p` for better story quality.
+- **Models**: Replace the fine-tuned BERT model with your own fine-tuned model for QA tasks.
+- **Routes**: Modify `/process` to include additional pre- or post-processing steps.
+- **Answer Extraction Parameters**: Adjust the model's configuration for optimal performance.
 
 ## 🤝 Contributions
-Contributions are welcome! Feel free to fork the repository and submit a pull request.
+Contributions are welcome! Feel free to fork the repository, make improvements, and submit a pull request.
+
+## 📄 License
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+---
+
+Let us know your thoughts or improvements by creating an issue or contacting us directly!
