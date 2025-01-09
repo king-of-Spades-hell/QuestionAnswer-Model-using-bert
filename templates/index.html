@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Question Answering Interface</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: #333;
+            background-image: url("https://scitechdaily.com/images/Vast-Universe-Concept.gif");
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+        }
+
+        h2 {
+            color: #6e8efb;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            color: #555;
+        }  
+        textarea, input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        textarea:focus, input:focus {
+            border-color: #6e8efb;
+            outline: none;
+            box-shadow: 0px 0px 8px rgba(110, 142, 251, 0.5);
+        }
+
+        button {
+            background-color: #6e8efb;
+            color: white;
+            padding: 12px;
+            margin-top: 20px;
+            border: none;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #5a7ce2;
+        }
+
+        #loading {
+            display: none;
+            font-size: 14px;
+            color: #a777e3;
+            margin-top: 15px;
+            animation: fadeInOut 1s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f1f1f1;
+            color: #444;
+            font-weight: bold;
+            display: none;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>AI-Powered Q&A</h2>
+        <p>Ask a question based on the paragraph provided below.</p>
+
+        <label for="paragraph">Paragraph</label>
+        <textarea id="paragraph" placeholder="Enter the paragraph here..."></textarea>
+
+        <label for="question">Question</label>
+        <input type="text" id="question" placeholder="Enter the question here...">
+
+        <button onclick="getAnswer()">Get Answer</button>
+
+        <div id="loading">Processing your answer...</div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function getAnswer() {
+            // Clear previous result and show loading message
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+
+            // Get input values
+            const context = document.getElementById('paragraph').value;
+            const question = document.getElementById('question').value;
+
+            try {
+                // Make a POST request to the Flask server
+                const response = await fetch('http://127.0.0.1:5000/answer', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ context, question })  // Updated key to "context"
+                });
+
+                // Get response data
+                const data = await response.json();
+
+                // Hide loading message and display the answer
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('result').innerText = "Answer: " + data.answer;
+            } catch (error) {
+                console.error('Error fetching answer:', error);
+                document.getElementById('loading').innerText = 'An error occurred. Please try again.';
+            }
+        }
+    </script>
+</body>
+</html>
+
+
